@@ -4,6 +4,7 @@
  * This module feeds off the primary speech to text interpreter to shunt commands into the system.
  */
 const {spawnSync} = require("child_process");
+const {VerbInterpreter} = require("./intent-verb");
 
 /**
  * Default implementation of the computer response
@@ -52,13 +53,13 @@ class AttentiveMode {
 	}
 
 	interpret(command) {
-		const words = command.text.split(" ");
-		const keyword = words[0];
-		const action = this.interpreter.keywords[keyword];
-		if( action ){
-			action(command, words, this.interpreter.talkback);
+		const intentName = this.interpreter.intentReducer.infer(command.text);
+		const intent = this.interpreter.intents[intentName];
+		if( !intent ){
+			this.interpreter.talkback.say("I don't know how to do that");
+			console.warn("Intent not registered",{intent});
 		} else {
-			console.log("Unknown command.");
+			intent(command, command.text.split(" "), this.interpreter.talkback);
 		}
 		return new InactiveMode();
 	}
@@ -72,11 +73,13 @@ class Interpreter {
 		this.mode = new InactiveMode();
 		// this.talkback = new ConsoleTalkback();
 		this.talkback = new OSXSpeechTalkback();
-		this.keywords = {};
+		this.intents = {};
+		this.intentReducer = new VerbInterpreter();
 	}
 
-	registerKeyword(keyword, interpreter){
-		this.keywords[keyword] = interpreter;
+	registerIntent(keyword, interpreter){
+		this.intents[keyword] = interpreter;
+		this.intentReducer.registerIntent(keyword, interpreter);
 	}
 
 	setMode(mode){
@@ -94,10 +97,12 @@ class Interpreter {
 
 function buildInterpreter(){
 	const interpreter = new Interpreter();
-	interpreter.registerKeyword("say", (cmd, parsed, talkback) => {
+	const cmd = (cmd, parsed, talkback) => {
 		const requested = parsed.splice(1);
 		talkback.say(requested.join(" "));
-	});
+	};
+	cmd.examples = ["say hello", "say goodbye", "say no", "say what are you doing", "say moo", "say yes please"];
+	interpreter.registerIntent("say", cmd);
 	return interpreter;
 }
 
