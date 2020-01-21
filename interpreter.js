@@ -5,12 +5,18 @@
  */
 const {spawnSync} = require("child_process");
 
+/**
+ * Default implementation of the computer response
+ */
 class ConsoleTalkback {
 	say(...what){
 		console.log(...what);
 	}
 }
 
+/**
+ * Uses the OSX command `say` to respond to the user
+ */
 class OSXSpeechTalkback {
 	say(what){
 		console.log("OSX Talkback: ", what);
@@ -20,7 +26,7 @@ class OSXSpeechTalkback {
 }
 
 /**
- *
+ * This waits for the named device to activate
  */
 class InactiveMode {
 	interpret(command){
@@ -37,7 +43,7 @@ class InactiveMode {
 }
 
 /**
- *
+ * Activates and dispatches a single command based on the first keyword.
  */
 class AttentiveMode {
 	activate(interpreter){
