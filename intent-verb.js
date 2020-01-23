@@ -5,7 +5,8 @@
 class VerbInterpreter {
 	constructor() {}
 
-	reduceIntent(phrase) {
+	registerIntent(){}
+	infer(phrase) {
 		const verb = phrase.split(" ")[0];
 		return verb;
 	}

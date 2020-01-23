@@ -15,9 +15,9 @@ else {
 
 let SILENCE_THRESHOLD = 200; // how many milliseconds of inactivity before processing the audio
 
-const VAD_MODE = VAD.Mode.NORMAL;
+// const VAD_MODE = VAD.Mode.NORMAL;
 // const VAD_MODE = VAD.Mode.LOW_BITRATE;
-// const VAD_MODE = VAD.Mode.AGGRESSIVE;
+const VAD_MODE = VAD.Mode.AGGRESSIVE;
 // const VAD_MODE = VAD.Mode.VERY_AGGRESSIVE;
 const vad = new VAD(VAD_MODE);
 
