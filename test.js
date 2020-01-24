@@ -253,24 +253,4 @@ function onRecognize(results) {
 	}
 }
 
-if (process.argv[2]) {
-	// if an audio file is supplied as an argument, play through the speakers to be picked up by the microphone
-	console.log('play audio file', process.argv[2]);
-	var file = fs.createReadStream(process.argv[2]);
-	var reader = new wav.Reader();
-	reader.on('format', function (format) {
-		firstChunkVoice = true;   // override vad for this test
-		SILENCE_THRESHOLD = 1000; // override silence (debounce time)
-		startMicrophone(function(results) {
-			console.log(results);
-			process.exit();
-		});
-		setTimeout(function() {
-			reader.pipe(new Speaker(format));
-		},900);
-	});
-	file.pipe(reader);
-}
-else {
-	startMicrophone(onRecognize);
-}
+startMicrophone(onRecognize);
