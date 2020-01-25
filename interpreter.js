@@ -3,9 +3,9 @@
  *
  * This module feeds off the primary speech to text interpreter to shunt commands into the system.
  */
-const {spawnSync} = require("child_process");
 const {VerbInterpreter} = require("./intent-verb");
 const {Writable} = require("stream");
+const {OSXSpeechTalkback} = require("./talkback-osx");
 
 /**
  * Default implementation of the computer response
@@ -13,17 +13,6 @@ const {Writable} = require("stream");
 class ConsoleTalkback {
 	say(...what){
 		console.log(...what);
-	}
-}
-
-/**
- * Uses the OSX command `say` to respond to the user
- */
-class OSXSpeechTalkback {
-	say(what){
-		console.log("OSX Talkback: ", what);
-		spawnSync("say",[what]);
-		// console.log("Done.");
 	}
 }
 
@@ -90,7 +79,7 @@ class Interpreter {
 	}
 
 	write(chunk){
-		console.log(chunk);
+		// console.log(chunk);
 		const result = this.mode.interpret(chunk);
 		if( !result ){ return; }
 		this.setMode(result);

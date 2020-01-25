@@ -70,7 +70,7 @@ class DeepSpeechTransform extends Transform {
 }
 
 function createDeepSpeechStream(opts = {}){
-	const { modelLocation, beamWidth= 1024, alpha = 0.75, beta = 1.85} = opts;
+	const { modelLocation, beamWidth= 4096, alpha = 0.75, beta = 1.85} = opts;
 	const englishModel = createModel(modelLocation || process.env.DEEPSPEECH_MODEL, {
 		BEAM_WIDTH: beamWidth,
 		LM_ALPHA: alpha,
