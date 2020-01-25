@@ -5,6 +5,7 @@
  */
 const {spawnSync} = require("child_process");
 const {VerbInterpreter} = require("./intent-verb");
+const {Writable} = require("stream");
 
 /**
  * Default implementation of the computer response
@@ -22,7 +23,7 @@ class OSXSpeechTalkback {
 	say(what){
 		console.log("OSX Talkback: ", what);
 		spawnSync("say",[what]);
-		console.log("Done.");
+		// console.log("Done.");
 	}
 }
 
@@ -89,6 +90,7 @@ class Interpreter {
 	}
 
 	write(chunk){
+		console.log(chunk);
 		const result = this.mode.interpret(chunk);
 		if( !result ){ return; }
 		this.setMode(result);
@@ -106,6 +108,19 @@ function buildInterpreter(){
 	return interpreter;
 }
 
+class InterpreterSink extends Writable {
+	constructor(interpreter) {
+		super({objectMode: true, decodeStrings: false});
+		this.interpreter = interpreter;
+	}
+
+	_write( chunk, encoding, callback){
+		this.interpreter.write(chunk);
+		callback();
+	}
+}
+
 module.exports = {
-	buildInterpreter
+	buildInterpreter,
+	InterpreterSink
 };
