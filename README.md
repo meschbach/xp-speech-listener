@@ -49,3 +49,9 @@ however this has not been heavily tested yet.
   * Voice classifications for authentications
 * Multidevice support:
   * Handling de-duplication of listeners
+* Voice Activation
+  * Better Voice vs Noise/background (i.e footsteps) 
+  * Natural Timeout mechanism
+  * seemless transition from Inactive to Attentive mode (i.e `hey computer, what is the weather` / activate and responds with weather)
+* Intent Inference
+  * Multi Intent inference (i.e `What time will Timothy come over, and what time is it now?`)
