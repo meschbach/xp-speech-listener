@@ -40,3 +40,12 @@ conversation and contextual interpretation.  In practice it might be better to w
 * Although reduction of the statement into an intent is a strategy, it is currently hardwired to use the first word as a
 verb of the intent to be dispatched too.  I began implementing a Bayesian classifier via [natural](https://github.com/NaturalNode/natural)
 however this has not been heavily tested yet.
+
+
+## Future Features and Road Map
+
+* Externalize conversation handlers
+* Security Contexts for skills
+  * Voice classifications for authentications
+* Multidevice support:
+  * Handling de-duplication of listeners
