@@ -4,6 +4,7 @@
  * This module feeds off the primary speech to text interpreter to shunt commands into the system.
  */
 const {VerbInterpreter} = require("./intent-verb");
+const {NaturalInterpreter} = require("./intent-natural");
 const {Writable} = require("stream");
 const {OSXSpeechTalkback} = require("./talkback-osx");
 
@@ -88,6 +89,7 @@ class Interpreter {
 
 function buildInterpreter(){
 	const interpreter = new Interpreter();
+	interpreter.intentReducer = new NaturalInterpreter();
 	return interpreter;
 }
 

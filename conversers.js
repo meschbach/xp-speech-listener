@@ -13,6 +13,7 @@ function addConversers(interpreter){
 		const oh = minutes < 10 ? " O ": "";
 		talkback.say ("the time is " +hour +" " +oh +minutes);
 	};
+	timeConverser.examples = ["what time is it","what is the current time","current time"];
 	interpreter.registerIntent("time", timeConverser);
 
 	const yearConverser = (cmd, parsed, talkback) => {
@@ -20,6 +21,7 @@ function addConversers(interpreter){
 		const year = new Date().getFullYear();
 		talkback.say ("The year is " +year);
 	};
+	yearConverser.examples = ["what year is it","what is the year", "current year"];
 	interpreter.registerIntent("year", yearConverser)
 }
 

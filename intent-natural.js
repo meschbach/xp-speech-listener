@@ -8,21 +8,25 @@ class NaturalInterpreter {
 		this.classifier = new natural.BayesClassifier();
 	}
 
-	registerCommand( intent, cmd ){
+	registerIntent( intent, cmd ){
 		if( cmd.examples ){
 			cmd.examples.forEach((e) => this.addExample(intent, e) );
 		} else {
 			throw new Error("Requires examples");
 		}
+		this.classifier.train();
 	}
 
 	addExample(intent, example){
 		this.classifier.addDocument(example, intent);
 	}
 
-	reduceIntent(command) {
-		return this.classifier.classify(command);
+	infer(command) {
+		const result = this.classifier.getClassifications(command);
+	// console.log("nlp",result);
+		return result[0].label;
 	}
+
 }
 
 module.exports = {
