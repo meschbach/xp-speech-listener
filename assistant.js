@@ -11,6 +11,7 @@ const {VADInterpreter} = require("./activation-vad");
 const {ActivationGate} = require("./activation-gate");
 const {buildInterpreter, InterpreterSink } = require("./interpreter");
 const {OSXSpeechTalkback} = require("./talkback-osx");
+const {addConversers} = require("./conversers");
 
 function activationMonitor( out, interpreter ) {
 	const deatch = [];
@@ -121,6 +122,7 @@ main(async (logger) => {
 	// speechInterpreter.on("data", (d) => console.log("Speech", d));
 
 	const interpreter = buildInterpreter();
+	addConversers(interpreter);
 	const sink = new InterpreterSink(interpreter);
 
 	// Entities related to the capture buffer
